@@ -1,4 +1,4 @@
-package cz.cuni.mff.zatkope.programs;
+package cz.cuni.mff.zatkope.programs.simple_dynamic_array;
 import cz.cuni.mff.zatkope.toolkit.SimpleDynamicArray;
 
 public class Main {
