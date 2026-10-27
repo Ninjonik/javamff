@@ -1,59 +1,84 @@
 package cz.cuni.mff.zatkope.toolkit;
 
-public class MString {
-    char[] string;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
-    MString() {
-        string = new char[0];
+public class MString implements Iterable<Character> {
+    char[] stringArray;
+
+    public MString() {
+        stringArray = new char[0];
     }
 
-    MString(String str) {
-        string = new char[str.length()];
+    public MString(String str) {
+        stringArray = new char[str.length()];
 
-        loadStringIntoArray(str, 0, string);
+        loadStringIntoArray(str, 0, stringArray);
     }
 
-    private static void loadStringIntoArray(String str, int start, char[] to) {
-        str.getChars(0, str.length(), to, start);
+    private static void loadStringIntoArray(String sourceStr, int startIndex, char[] toArray) {
+        sourceStr.getChars(0, sourceStr.length(), toArray, startIndex);
     }
 
-    void append(String str) {
-        char[] newString = new char[string.length + str.length()];
+    public void append(String str) {
+        char[] newStringArray = new char[stringArray.length + str.length()];
 
-        System.arraycopy(string, 0, newString, 0, string.length);
-        loadStringIntoArray(str, string.length, newString);
+        System.arraycopy(stringArray, 0, newStringArray, 0, stringArray.length);
+        loadStringIntoArray(str, stringArray.length, newStringArray);
 
-        string = newString;
+        stringArray = newStringArray;
     }
 
-    void append(char ch) {
+    public void append(char ch) {
         append(String.valueOf(ch));
     }
 
-    void insert(int pos, String str) {
-        char[] newString = new char[string.length + str.length() - pos];
+    public void insert(int pos, String str) {
+        char[] newStringArray = new char[stringArray.length + str.length() - pos];
 
-        System.arraycopy(string, 0, newString, 0, string.length);
-        loadStringIntoArray(str, pos, newString);
+        System.arraycopy(stringArray, 0, newStringArray, 0, stringArray.length);
+        loadStringIntoArray(str, pos, newStringArray);
 
-        string = newString;
+        stringArray = newStringArray;
     }
 
-    void insert(int pos, char ch) {
+    public void insert(int pos, char ch) {
         insert(pos, String.valueOf(ch));
     }
 
-    void delete(int pos, int length) {
-        char[] newString = new char[string.length - (Math.min(string.length - pos, length))];
+    public void delete(int pos, int length) {
+        int toDeleteCount = Math.min(stringArray.length - pos, length);
 
-        System.arraycopy(string, 0, newString, 0, pos);
-        System.arraycopy(string, pos + length, newString, pos, string.length - length - pos);
+        char[] newStringArray = new char[stringArray.length - toDeleteCount];
 
-        string = newString;
+        System.arraycopy(stringArray, 0, newStringArray, 0, pos); // left
+        System.arraycopy(stringArray, pos + toDeleteCount, newStringArray, pos, stringArray.length - toDeleteCount - pos); // right
+
+        stringArray = newStringArray;
     }
 
     @Override
     public String toString() {
-        return string.length == 0 ? "" : new String(string);
+        return stringArray.length == 0 ? "" : new String(stringArray);
+    }
+
+    @Override
+    public Iterator<Character> iterator() {
+        return new Iterator<Character>() {
+            private int i = 0;
+
+            @Override
+            public boolean hasNext() {
+                return i < stringArray.length;
+            }
+
+            @Override
+            public Character next() {
+                if (i < stringArray.length) {
+                    return stringArray[i++];
+                }
+                throw new NoSuchElementException();
+            }
+        };
     }
 }

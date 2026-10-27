@@ -1,16 +1,16 @@
-package cz.cuni.mff.zatkope.multiplication_table;
+package cz.cuni.mff.zatkope.programs.multiplication_table;
 
 public class Main {
-    private static String printSpaces(Integer count){
+    private static String printSpaces(Integer count) {
         StringBuilder output = new StringBuilder();
-        for (int i = 0; i < count; i++){
+        for (int i = 0; i < count; i++) {
             output.append(" ");
         }
 
         return output.toString();
     }
 
-    private static int getIntegerLength(Integer input){
+    private static int getIntegerLength(Integer input) {
         return Integer.toString(input).length();
     }
 
