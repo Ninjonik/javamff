@@ -12,6 +12,58 @@ public class SimpleDynamicArray<T> implements SimpleCollection<T>, Iterable<T> {
         data = new Object[Math.max(size, 1)];
     }
 
+    public static SimpleDynamicArray<String> of(String[] args) {
+        SimpleDynamicArray<String> arr = new SimpleDynamicArray<>(args.length);
+        for (String arg : args) {
+            arr.add(arg);
+        }
+        return arr;
+    }
+
+    /*
+    // Sorts (a portion of) an array, divides it into partitions, then sorts those
+algorithm quicksort(A, lo, hi) is
+  if lo >= 0 && lo < hi then
+    lt, gt := partition(A, lo, hi) // Multiple return values
+    quicksort(A, lo, lt - 1)
+    quicksort(A, gt + 1, hi)
+
+// Divides array into three partitions
+algorithm partition(A, lo, hi) is
+  // Pivot value
+  pivot := A[(lo + hi) / 2] // Choose the middle element as the pivot (integer division)
+
+  // Lesser, equal and greater index
+  lt := lo
+  eq := lo
+  gt := hi
+
+  // Iterate and compare all elements with the pivot
+  while eq <= gt do
+    if A[eq] < pivot then
+      // Swap the elements at the equal and lesser indices
+      swap A[eq] with A[lt]
+      // Increase lesser index
+      lt := lt + 1
+      // Increase equal index
+      eq := eq + 1
+    else if A[eq] > pivot then
+      // Swap the elements at the equal and greater indices
+      swap A[eq] with A[gt]
+      // Decrease greater index
+      gt := gt - 1
+    else // if A[eq] = pivot then
+      // Increase equal index
+      eq := eq + 1
+
+  // Return lesser and greater indices
+  return lt, gt
+     */
+
+    public int size() {
+        return lastItemIndex + 1;
+    }
+
     private void growIfNeeded() {
         if (lastItemIndex >= capacity()) {
             Object[] newData = new Object[capacity() * 2];
@@ -32,10 +84,6 @@ public class SimpleDynamicArray<T> implements SimpleCollection<T>, Iterable<T> {
 
     private int capacity() {
         return data.length;
-    }
-
-    public int size() {
-        return lastItemIndex + 1;
     }
 
     public void add(T o) {
@@ -89,6 +137,28 @@ public class SimpleDynamicArray<T> implements SimpleCollection<T>, Iterable<T> {
                 return (T) data[index++];
             }
         };
+    }
+
+    class Sorter {
+        public void partition(data, int lo, int hi) {
+            int pivot = (int) data[Math.floorDiv(lo + hi, 2)];
+
+            int lt = lo;
+            int eq = lo;
+            int gt = hi;
+
+            while (eq <= gt) {
+                if (data[eq] < pivot) {
+                    int temp = data[lt];
+                    data[lt] = eq;
+                    data[eq] = temp;
+                }
+            }
+        }
+
+        public void sort() {
+
+        }
     }
 }
 
