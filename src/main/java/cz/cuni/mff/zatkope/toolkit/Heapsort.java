@@ -1,6 +1,17 @@
 package cz.cuni.mff.zatkope.toolkit;
 
+import java.util.Comparator;
+
 public class Heapsort {
+
+    public static void main(String[] args) {
+    }
+
+    public static <T extends Comparable<T>> void heapsort(T[] array) {
+    }
+
+    public static <T> void heapSort(T[] array, Comparator<T> comparator) {
+    }
 
     void swap(int[] arr, int i, int j) {
         int temp = arr[i];
