@@ -106,30 +106,33 @@ public class SimpleDynamicArray<T> implements SimpleCollection<T>, Iterable<T> {
     }
 
     private class Sorter {
-        private void sort(Comparator<? super T> comparator, int lo, int hi) {
-            while (lo < hi) {
-                T pivot = (T) data[lo + (hi - lo) / 2];
-                int lt = lo;
-                int eq = lo;
-                int gt = hi;
 
-                while (eq <= gt) {
-                    int comparison = comparator.compare((T) data[eq], pivot);
-                    if (comparison < 0) {
-                        swap(lt++, eq++);
-                    } else if (comparison > 0) {
-                        swap(eq, gt--);
+        private void sort(Comparator<? super T> comparator, int start, int end) {
+            while (start < end) {
+                T pivot = (T) data[start + (end - start) / 2];
+
+                int lessThanBorder = start;
+                int currentIndex = start;
+                int greaterThanBorder = end;
+
+                while (currentIndex <= greaterThanBorder) {
+                    int compareResult = comparator.compare((T) data[currentIndex], pivot);
+
+                    if (compareResult < 0) {
+                        swap(lessThanBorder++, currentIndex++);
+                    } else if (compareResult > 0) {
+                        swap(currentIndex, greaterThanBorder--);
                     } else {
-                        eq++;
+                        currentIndex++;
                     }
                 }
 
-                if (lt - lo < hi - gt) {
-                    sort(comparator, lo, lt - 1);
-                    lo = gt + 1;
+                if (lessThanBorder - start < end - greaterThanBorder) {
+                    sort(comparator, start, lessThanBorder - 1);
+                    start = greaterThanBorder + 1;
                 } else {
-                    sort(comparator, gt + 1, hi);
-                    hi = lt - 1;
+                    sort(comparator, greaterThanBorder + 1, end);
+                    end = lessThanBorder - 1;
                 }
             }
         }
