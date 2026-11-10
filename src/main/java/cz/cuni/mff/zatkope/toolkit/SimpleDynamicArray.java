@@ -102,12 +102,12 @@ public class SimpleDynamicArray<T> implements SimpleCollection<T>, Iterable<T> {
 
     public void sort(Comparator<? super T> comparator) {
         Objects.requireNonNull(comparator, "comparator missing");
-        new Sorter().sort(comparator, 0, lastItemIndex);
+        new Sorter().quickSort(comparator, 0, lastItemIndex);
     }
 
     private class Sorter {
 
-        private void sort(Comparator<? super T> comparator, int start, int end) {
+        private void quickSort(Comparator<? super T> comparator, int start, int end) {
             while (start < end) {
                 T pivot = (T) data[start + (end - start) / 2];
 
@@ -128,10 +128,10 @@ public class SimpleDynamicArray<T> implements SimpleCollection<T>, Iterable<T> {
                 }
 
                 if (lessThanBorder - start < end - greaterThanBorder) {
-                    sort(comparator, start, lessThanBorder - 1);
+                    quickSort(comparator, start, lessThanBorder - 1);
                     start = greaterThanBorder + 1;
                 } else {
-                    sort(comparator, greaterThanBorder + 1, end);
+                    quickSort(comparator, greaterThanBorder + 1, end);
                     end = lessThanBorder - 1;
                 }
             }
