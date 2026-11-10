@@ -101,7 +101,7 @@ public class SimpleDynamicArray<T> implements SimpleCollection<T>, Iterable<T> {
     }
 
     public void sort(Comparator<? super T> comparator) {
-        Objects.requireNonNull(comparator, "comparator");
+        Objects.requireNonNull(comparator, "comparator missing");
         new Sorter().sort(comparator, 0, lastItemIndex);
     }
 
