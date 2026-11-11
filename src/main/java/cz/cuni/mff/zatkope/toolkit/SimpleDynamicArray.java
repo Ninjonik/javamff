@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.Objects;
 
 @SuppressWarnings("unchecked")
-public class SimpleDynamicArray<T> implements SimpleCollection<T>, Iterable<T> {
+public class SimpleDynamicArray<T extends Comparable<T>> implements SimpleCollection<T>, Iterable<T> {
     private int lastItemIndex = -1;
     private Object[] data;
 
@@ -13,7 +13,7 @@ public class SimpleDynamicArray<T> implements SimpleCollection<T>, Iterable<T> {
         data = new Object[Math.max(size, 1)];
     }
 
-    public static <K> SimpleDynamicArray<K> of(K[] args) {
+    public static <K extends Comparable<K>> SimpleDynamicArray<K> of(K[] args) {
         SimpleDynamicArray<K> arr = new SimpleDynamicArray<>(args.length);
         for (K arg : args) {
             arr.add(arg);
@@ -87,7 +87,7 @@ public class SimpleDynamicArray<T> implements SimpleCollection<T>, Iterable<T> {
     }
 
     public Iterator<T> iterator() {
-        return new Iterator<T>() {
+        return new Iterator<>() {
             private int index = 0;
 
             public boolean hasNext() {

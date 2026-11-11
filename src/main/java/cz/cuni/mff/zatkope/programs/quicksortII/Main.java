@@ -9,8 +9,8 @@ public class Main {
             arr.add(arg);
         }
         arr.sort(String::compareTo);
-        for (int i = 0; i < args.length; i++) {
-            System.out.println(arr.get(i));
+        for (String item : arr) {
+            System.out.println(item);
         }
     }
 }
